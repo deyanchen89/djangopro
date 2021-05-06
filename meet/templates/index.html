@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>设备排期平台</title>
+    <link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'datetimepicker/css/bootstrap-datetimepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'sweetalert2/dist/sweetalert2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+<div class="container">
+<div class="panel panel-primary">
+  <div class="panel-heading">
+          <h1 class="text-center">设备排期表</h1>
+  </div>      
+ <div class="panel-body">
+    <div class="clearfix">
+        <div style="float: left;color: red" id="errors"></div>
+            <form class="form-horizontal" id="device_form" onsubmit="return false" action='##' method="post">
+                <div class='input-group'>
+{#            设备名称#}
+                    <input type='text' class="form-control" id="device" name="device_name" placeholder=" 添加设备" value="" />
+                </div>
+                
+                <div class='input-group'>
+{#            时间插件#}
+                <input type='text' class="form-control" id="datetimepicker" name="date_picked" placeholder="请选择日期"/>    
+                </div>
+                <div class="add-btn">
+                    <input type="button" id="search_btn" onclick="onSearch()" 
+                            style="background-image: url(/static/img/search_2.jpg);
+                                width: 38px;height: 35px;
+                                background-repeat:no-repeat ;
+                                background-size:100% 100%; 
+                                border: 0;
+                                background-color: transparent;"></input>
+                </div>
+                <div class="add-btn">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="button" class="btn btn-primary" value="添加设备" id="submit_btn" onclick="adDevice()"></input>
+                    </div>
+                </div>
+            </form>
+        <div class="add-btn">
+            <input id="save" type="button" class="btn btn-primary" value="保存"></input>
+        </div>
+        <div class="pull-right">
+            <b>hello {{ name }} </b>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'meet:log_out' %}">注销</a>
+        </div>
+    </div>
+<div style="overflow:auto;">
+    <table id="tb" class="table table-bordered  table-striped" style="border:1px solid red">
+        <thead>
+        <tr>
+            <th style="text-align: center;vertical-align: middle;">设备</th>
+            <th style="text-align: center;vertical-align: middle;">日期</th>
+{#            拿到从后端发过来的所有时间段#}
+            {% for choice in time_choices %}
+                <th style="text-align: center;vertical-align: middle;">{{ choice.1 }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody class="tbody" id="tBody">
+{#        tbody中的内容包含未预定信息和预定信息，且需要实时更新，所以这里用后端传递的方式获取#}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+
+<!-- 遮罩层开始 -->
+<div id='shade' class='shade hide'></div>
+<!-- 遮罩层结束 -->
+<!-- 加载层开始 -->
+<div id='loading' class='loading hide'></div>
+<!-- 加载层结束 -->
+
+<script src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'jquery-cookie/jquery.cookie.js' %}"></script>
+<script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+<script src="{% static 'datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+<script src="{% static 'datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
+<script src="{% static 'sweetalert2/dist/sweetalert2.js' %}"></script>
+<script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
